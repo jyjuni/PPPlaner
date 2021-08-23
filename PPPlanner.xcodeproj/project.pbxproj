@@ -10,9 +10,8 @@
 		78C712D0C455594E6F880F00 /* Pods_PPPlanner_PPPlannerUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3F56C23D1A9B0C90AA29111 /* Pods_PPPlanner_PPPlannerUITests.framework */; };
 		A060D2AE26D0E33500204075 /* EntryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A060D2AD26D0E33500204075 /* EntryViewController.swift */; };
 		A060D2B026D0E34800204075 /* TaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A060D2AF26D0E34800204075 /* TaskViewController.swift */; };
-		A060D2B226D0ED8D00204075 /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A060D2B126D0ED8D00204075 /* CalendarViewController.swift */; };
 		A060D2B426D1090300204075 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = A060D2B326D1090300204075 /* Event.swift */; };
-		A060D2B626D11BE700204075 /* EventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A060D2B526D11BE700204075 /* EventCell.swift */; };
+		A060D2B626D11BE700204075 /* ColorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A060D2B526D11BE700204075 /* ColorCell.swift */; };
 		A0CF65EB26D0B51800DDC09B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0CF65EA26D0B51800DDC09B /* AppDelegate.swift */; };
 		A0CF65ED26D0B51800DDC09B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0CF65EC26D0B51800DDC09B /* SceneDelegate.swift */; };
 		A0CF65EF26D0B51800DDC09B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0CF65EE26D0B51800DDC09B /* ViewController.swift */; };
@@ -52,9 +51,8 @@
 		819230A3408758EB39E5C229 /* Pods_PPPlanner.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PPPlanner.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A060D2AD26D0E33500204075 /* EntryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryViewController.swift; sourceTree = "<group>"; };
 		A060D2AF26D0E34800204075 /* TaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskViewController.swift; sourceTree = "<group>"; };
-		A060D2B126D0ED8D00204075 /* CalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
 		A060D2B326D1090300204075 /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
-		A060D2B526D11BE700204075 /* EventCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventCell.swift; sourceTree = "<group>"; };
+		A060D2B526D11BE700204075 /* ColorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorCell.swift; sourceTree = "<group>"; };
 		A0CF65E726D0B51800DDC09B /* PPPlanner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PPPlanner.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A0CF65EA26D0B51800DDC09B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A0CF65EC26D0B51800DDC09B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -155,8 +153,7 @@
 				A0CF65EC26D0B51800DDC09B /* SceneDelegate.swift */,
 				A0CF65EE26D0B51800DDC09B /* ViewController.swift */,
 				A060D2B326D1090300204075 /* Event.swift */,
-				A060D2B526D11BE700204075 /* EventCell.swift */,
-				A060D2B126D0ED8D00204075 /* CalendarViewController.swift */,
+				A060D2B526D11BE700204075 /* ColorCell.swift */,
 				A060D2AD26D0E33500204075 /* EntryViewController.swift */,
 				A060D2AF26D0E34800204075 /* TaskViewController.swift */,
 				A0CF65F026D0B51800DDC09B /* Main.storyboard */,
@@ -430,8 +427,7 @@
 				A0CF65EB26D0B51800DDC09B /* AppDelegate.swift in Sources */,
 				A0CF65F526D0B51800DDC09B /* PPPlanner.xcdatamodeld in Sources */,
 				A0CF65ED26D0B51800DDC09B /* SceneDelegate.swift in Sources */,
-				A060D2B226D0ED8D00204075 /* CalendarViewController.swift in Sources */,
-				A060D2B626D11BE700204075 /* EventCell.swift in Sources */,
+				A060D2B626D11BE700204075 /* ColorCell.swift in Sources */,
 				A060D2B026D0E34800204075 /* TaskViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -538,7 +534,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -593,7 +589,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -610,7 +606,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 25P4M6355L;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = PPPlanner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -630,7 +626,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 25P4M6355L;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = PPPlanner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

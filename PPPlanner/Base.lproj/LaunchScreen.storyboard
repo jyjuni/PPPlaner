@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -15,20 +16,39 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" fixedFrame="YES" image="bg3" translatesAutoresizingMaskIntoConstraints="NO" id="K65-aB-0Ii">
-                                <rect key="frame" x="-96" y="-42" width="551" height="980"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="a planner by " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vbb-RT-cNI">
+                                <rect key="frame" x="79" y="503" width="160" height="37"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="27"/>
+                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="appstore" translatesAutoresizingMaskIntoConstraints="NO" id="OLc-xr-rA8">
+                                <rect key="frame" x="79" y="273" width="256" height="220"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="220" id="JDu-Ub-qsN"/>
+                                    <constraint firstAttribute="width" constant="256" id="KHh-bg-KOk"/>
+                                </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="小金的planner" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9zh-Ae-Yf3">
-                                <rect key="frame" x="145" y="297" width="124" height="40"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="BodoniSvtyTwoOSITCTT-Book" family="Bodoni 72 Oldstyle" pointSize="20"/>
-                                <color key="textColor" red="0.94507277509999998" green="0.96993559600000001" blue="0.90227501600000004" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="jinyijia" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1nR-oI-19Y">
+                                <rect key="frame" x="240" y="485" width="81" height="73"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="73" id="eHY-C3-HDy"/>
+                                    <constraint firstAttribute="height" constant="79" id="sH0-Xc-E0z"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="27"/>
+                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
-                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="OLc-xr-rA8" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="06B-dl-WX1"/>
+                            <constraint firstItem="OLc-xr-rA8" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="229" id="Wc5-sg-D50"/>
+                            <constraint firstItem="vbb-RT-cNI" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="79" id="gmD-K8-xi9"/>
+                            <constraint firstItem="1nR-oI-19Y" firstAttribute="leading" secondItem="vbb-RT-cNI" secondAttribute="trailing" constant="1" id="mc3-EX-UbS"/>
+                            <constraint firstItem="vbb-RT-cNI" firstAttribute="top" secondItem="OLc-xr-rA8" secondAttribute="bottom" constant="10" id="piT-d2-wwe"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -41,6 +61,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="appstore" width="1024" height="1024"/>
         <image name="bg3" width="1242" height="2208"/>
     </resources>
 </document>
