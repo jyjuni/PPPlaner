@@ -48,6 +48,10 @@ class ViewController: UIViewController,UITextViewDelegate,FSCalendarDelegate{
 
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
+    let datePicker2 = UIDatePicker()
+    let datePicker3 = UIDatePicker()
+
+    
     private let reuseIdentifier = "calendarCell"
 
     
@@ -62,7 +66,7 @@ class ViewController: UIViewController,UITextViewDelegate,FSCalendarDelegate{
         popupView.bounds = CGRect(x: 0, y: 0, width: self.view.bounds.width*0.9, height: self.view.bounds.height*0.4)
         
         popupView2.layer.cornerRadius = 5
-        popupView2.bounds = CGRect(x: 0, y: 0, width: self.view.bounds.width*0.9, height: self.view.bounds.height*0.8)
+        popupView2.bounds = CGRect(x: 0, y: 0, width: self.view.bounds.width*0.9, height: self.view.bounds.height*0.75)
         
         noteField.layer.borderColor = UIColor.lightGray.cgColor
         noteField.layer.borderWidth = 0.2
@@ -77,15 +81,19 @@ class ViewController: UIViewController,UITextViewDelegate,FSCalendarDelegate{
         placeholderLabel.textColor = UIColor.lightGray
         placeholderLabel.isHidden = !noteField.text.isEmpty
         
-        //        let datePicker2 = UIDatePicker()
-//        datePicker2.datePickerMode = .dateAndTime
-//        datePicker2.addTarget(self, action: #selector(dateChange(datePicker:)), for: UIControl.Event.valueChanged)
-//        datePicker2.frame.size = CGSize(width: 0, height: 300)
-//        datePicker2.preferredDatePickerStyle = .wheels
-//
-//        startTF.inputView = datePicker2
-//        startTF.text = formatDate(date: Date())
         
+        datePicker2.minuteInterval = 15
+        datePicker2.datePickerMode = .dateAndTime
+        datePicker2.addTarget(self, action: #selector(startDateChange(datePicker:)), for: UIControl.Event.valueChanged)
+        datePicker2.frame.size = CGSize(width: 0, height: 300)
+        datePicker2.preferredDatePickerStyle = .wheels
+        
+        datePicker3.minuteInterval = 15
+        datePicker3.datePickerMode = .dateAndTime
+        datePicker3.addTarget(self, action: #selector(endDateChange(datePicker:)), for: UIControl.Event.valueChanged)
+        datePicker3.frame.size = CGSize(width: 0, height: 300)
+        datePicker3.preferredDatePickerStyle = .wheels
+
         
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         tableView.delegate = self
@@ -176,25 +184,12 @@ class ViewController: UIViewController,UITextViewDelegate,FSCalendarDelegate{
         animateIn(desiredView: popupView2)
         
         //start date
-        let datePicker2 = UIDatePicker()
-        datePicker2.datePickerMode = .dateAndTime
-        datePicker2.addTarget(self, action: #selector(startDateChange(datePicker:)), for: UIControl.Event.valueChanged)
-        datePicker2.frame.size = CGSize(width: 0, height: 300)
-        datePicker2.preferredDatePickerStyle = .wheels
-        
         startTF.inputView = datePicker2
         startTF.text = formatDate(date: Date())
         
         //end date
-        let datePicker3 = UIDatePicker()
-        datePicker3.datePickerMode = .dateAndTime
-        datePicker3.addTarget(self, action: #selector(endDateChange(datePicker:)), for: UIControl.Event.valueChanged)
-        datePicker3.frame.size = CGSize(width: 0, height: 300)
-        datePicker3.preferredDatePickerStyle = .wheels
-        
         endTF.inputView = datePicker3
-        endTF.text = formatDate(date: Date())
-        
+        endTF.text = formatDate(date: datePicker2.date)
         
     }
     
