@@ -19,5 +19,11 @@ extension EventsListItem {
     @NSManaged public var name: String?
     @NSManaged public var id: Int64
     @NSManaged public var date: Date?
+    @NSManaged public var endDate: Date?
+    @NSManaged public var colorLabel: Int64
+    @NSManaged public var desc: String?
+
+
+
 
 }

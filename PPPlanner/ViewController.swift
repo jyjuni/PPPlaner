@@ -12,7 +12,7 @@ import CoreData
 var selectedDate = Date()
 var events = [EventsListItem]()
 
-class ViewController: UIViewController,UITextViewDelegate,FSCalendarDelegate{
+class ViewController: UIViewController, UITextViewDelegate, FSCalendarDelegate{
 
     @IBOutlet var tableView: UITableView!
     @IBOutlet var calendar: FSCalendar!
@@ -34,10 +34,11 @@ class ViewController: UIViewController,UITextViewDelegate,FSCalendarDelegate{
     @IBOutlet weak var startTF: UITextField!
     @IBOutlet weak var endTF: UITextField!
     
-    var selectedColor: UIColor!
+    var selectedColorLabel: Int!
     var placeholderLabel : UILabel!
     
-    let colorLabels = [UIColor(red: 1.00, green: 0.24, blue: 0.18, alpha: 1.00)
+    let colorLabels = [UIColor.clear
+                      ,UIColor(red: 1.00, green: 0.24, blue: 0.18, alpha: 1.00)
                       ,UIColor(red: 1.00, green: 0.58, blue: 0.00, alpha: 1.00)
                       ,UIColor(red: 1.00, green: 0.80, blue: 0.00, alpha: 1.00)
                       ,UIColor(red: 0.69, green: 0.82, blue: 0.32, alpha: 1.00)
@@ -58,7 +59,7 @@ class ViewController: UIViewController,UITextViewDelegate,FSCalendarDelegate{
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        
+
         // view setups
         self.title = "today's tasks"
         blurView.bounds = self.view.bounds
@@ -95,7 +96,7 @@ class ViewController: UIViewController,UITextViewDelegate,FSCalendarDelegate{
         datePicker3.preferredDatePickerStyle = .wheels
 
         
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+//        tableView.register(TableCell.self, forCellReuseIdentifier: "tablecell")
         tableView.delegate = self
         tableView.dataSource = self
         
@@ -105,8 +106,6 @@ class ViewController: UIViewController,UITextViewDelegate,FSCalendarDelegate{
         collectionView.register(ColorCell.self, forCellWithReuseIdentifier: self.reuseIdentifier)
         collectionView.delegate = self
         collectionView.dataSource = self
-
-
         
         //update events list
         getAllItems()
@@ -146,7 +145,8 @@ class ViewController: UIViewController,UITextViewDelegate,FSCalendarDelegate{
         getAllItems()
         calendar.reloadData()
         tableView.reloadData()
-        
+        clearAll()
+
         animateOut(desiredView: popupView)
         animateOut(desiredView: blurView)
     }
@@ -158,26 +158,38 @@ class ViewController: UIViewController,UITextViewDelegate,FSCalendarDelegate{
     }
     
     @IBAction func didTapSave2(_ sender: Any) {
-        guard let name = nameField.text, !name.isEmpty else {
+        guard let name = nameField2.text, !name.isEmpty else {
             return
         }
-
-        guard let note = noteField.text, !note.isEmpty else {
-            return
+        
+        if self.selectedColorLabel == nil{
+            self.selectedColorLabel = 0
         }
 
-//        createItem(name: name, id: Int64(events.count), startDate: datePicker2.date, endDate: datePicker3.date, colorLabel: self.selectedColor, note:note)
+        createItem(name: name, id: Int64(events.count), startDate: datePicker2.date, endDate: datePicker3.date, colorLabel: self.selectedColorLabel, note:noteField.text)
         
         getAllItems()
         calendar.reloadData()
         tableView.reloadData()
-        
+        clearAll()
+
         animateOut(desiredView: popupView)
         animateOut(desiredView: popupView2)
         animateOut(desiredView: blurView)
     }
     
     
+    func clearAll(){
+        
+        nameField.text?.removeAll()
+        nameField2.text?.removeAll()
+        noteField.text?.removeAll()
+        datePicker.date = Date()
+        datePicker2.date = Date()
+        datePicker3.date = Date()
+        collectionView.indexPathsForSelectedItems?
+            .forEach { collectionView.deselectItem(at: $0, animated: false) }
+    }
     
    
     @IBAction func didTapMore(_ sender: Any) {
@@ -266,14 +278,14 @@ class ViewController: UIViewController,UITextViewDelegate,FSCalendarDelegate{
         }
     }
 
-    func createItem(name:String, id:Int64, startDate:Date, endDate:Date, colorLabel:UIColor, note:String){
+    func createItem(name:String, id:Int64, startDate:Date, endDate:Date, colorLabel:Int, note:String){
         let newItem = EventsListItem(context:context)
         newItem.name = name
         newItem.id = id
-//        newItem.startDate = startDate
-//        newItem.endDate = endDate
-//        newItem.colorLabel = colorLabel
-//        newItem.note = note
+        newItem.date = startDate
+        newItem.endDate = endDate
+        newItem.colorLabel = Int64(colorLabel)
+        newItem.desc = note
 
         do
         {
@@ -348,7 +360,19 @@ class ViewController: UIViewController,UITextViewDelegate,FSCalendarDelegate{
 //        if ...{
 //                return [UIColor.yellow]
 //            }
-         return [UIColor.blue]
+        var colors = [UIColor]()
+        for event in eventsforDate(date: date)
+        {
+            if(event.colorLabel != 0){
+                if(!colors.contains(self.colorLabels[Int(event.colorLabel)]))
+                {
+                    colors.append(self.colorLabels[Int(event.colorLabel)])
+                }
+            }
+        }
+        print("\(colors)")
+        return colors
+        
         //multiple labels
         
         //no labels
@@ -372,39 +396,21 @@ extension ViewController: FSCalendarDataSource, FSCalendarDelegateAppearance {
     }
 }
 
-
-
-
 extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout{
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         let cell = collectionView.cellForItem(at: indexPath) as! ColorCell
-        self.selectedColor = self.colorLabels[indexPath.row]
-        print("\(String(describing: self.selectedColor))")
-        imageIcon.tintColor = self.selectedColor
-        
-        //highlight selected cell
-//        cell.layer.borderWidth = 2.0
-//        cell.layer.borderColor = UIColor.gray.cgColor
-
-        
-//        cell.layer.shadowColor = UIColor.gray.cgColor
-//        cell.layer.shadowOpacity = 0.8
-//        cell.layer.shadowRadius = 5
-//        cell.layer.shadowOffset = CGSize(width: 0, height: 0)
+        self.selectedColorLabel = indexPath.row+1
+        let selectedColor = self.colorLabels[indexPath.row+1]
+        print("\(String(describing: selectedColor))")
+        imageIcon.tintColor = selectedColor
 
     }
-        
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
         //unhighlight selected cell
         let cell = collectionView.cellForItem(at: indexPath) as! ColorCell
-//        cell?.layer.borderWidth = 2.0
-//        cell?.layer.borderColor = UIColor.clear.cgColor
-        
-//        cell.layer.shadowColor = UIColor.clear.cgColor
-
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
@@ -438,12 +444,12 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate, 
 
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.colorLabels.count
+        return self.colorLabels.count-1
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath)
-        cell.backgroundColor = self.colorLabels[indexPath.row]
+        cell.backgroundColor = self.colorLabels[indexPath.row+1]
         return cell
     }
 }
@@ -468,16 +474,20 @@ extension ViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for:indexPath)
-        let event = eventsforDate(date: selectedDate)[indexPath.row]
-        let formatter = DateFormatter()
-        formatter.dateFormat = "h:mm a"
-        let date_formatted = formatter.string(from: event.date!)
-        navigationItem.title = date_formatted
-        var name: String!
-        name = event.name
-        cell.textLabel?.text = "\(name ?? "") \(date_formatted)"
-        return cell
+        if let cell = tableView.dequeueReusableCell(withIdentifier: "tablecell", for: indexPath) as? TableCell{
+            let event = eventsforDate(date: selectedDate)[indexPath.row]
+            let formatter = DateFormatter()
+            formatter.dateFormat = "h:mm a"
+            let date_formatted = formatter.string(from: event.date!)
+            navigationItem.title = date_formatted
+    //        cell.textLabel?.text = "\(String(describing: event.name))"
+            let name = event.name!
+            cell.nameTF?.text = "\(name)"
+            cell.timeTF?.text = "\(date_formatted)"
+            cell.colorLabel?.tintColor = self.colorLabels[Int(event.colorLabel)]
+            return cell
+        }
+        return UITableViewCell()
     }
     
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
