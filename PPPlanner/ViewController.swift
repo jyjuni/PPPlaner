@@ -11,41 +11,38 @@ import CoreData
 
 var selectedDate = Date()
 var events = [EventsListItem]()
+let colorLabels = [UIColor.clear
+                  ,UIColor(red: 1.00, green: 0.24, blue: 0.18, alpha: 1.00)
+                  ,UIColor(red: 1.00, green: 0.58, blue: 0.00, alpha: 1.00)
+                  ,UIColor(red: 1.00, green: 0.80, blue: 0.00, alpha: 1.00)
+                  ,UIColor(red: 0.69, green: 0.82, blue: 0.32, alpha: 1.00)
+                  ,UIColor(red: 0.08, green: 0.78, blue: 0.35, alpha: 1.00)
+                  ,UIColor(red: 0.00, green: 0.48, blue: 1.00, alpha: 1.00)
+                  ,UIColor(red: 0.76, green: 0.46, blue: 0.86, alpha: 1.00)]
 
-class ViewController: UIViewController, UITextViewDelegate, FSCalendarDelegate{
+class ViewController: UIViewController, UITextViewDelegate{
 
+    //MAIN VC
     @IBOutlet var tableView: UITableView!
-    @IBOutlet var calendar: FSCalendar!
+    @IBOutlet var calendarView: FSCalendar!
+    //POPUP WINDOW
     @IBOutlet var blurView: UIVisualEffectView!
     @IBOutlet var popupView: UIView!
     @IBOutlet var popupView2: UIView!
-    @IBOutlet weak var collectionView: UICollectionView!
-    
-    //ADD POPUP
+    //ADD POPUP VIEW
     @IBOutlet weak var nameField: UITextField!
-    @IBOutlet weak var noteField: UITextView!
-
     @IBOutlet weak var datePicker: UIDatePicker!
-
-
-    //DETAIL ADD POPUP
+    //DETAIL ADD POPUP VIEW
     @IBOutlet weak var imageIcon: UIImageView!
     @IBOutlet weak var nameField2: UITextField!
     @IBOutlet weak var startTF: UITextField!
     @IBOutlet weak var endTF: UITextField!
-    
+    @IBOutlet weak var noteField: UITextView!
+    @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var calendarHeightConstraint: NSLayoutConstraint!
+
     var selectedColorLabel: Int!
     var placeholderLabel : UILabel!
-    
-    let colorLabels = [UIColor.clear
-                      ,UIColor(red: 1.00, green: 0.24, blue: 0.18, alpha: 1.00)
-                      ,UIColor(red: 1.00, green: 0.58, blue: 0.00, alpha: 1.00)
-                      ,UIColor(red: 1.00, green: 0.80, blue: 0.00, alpha: 1.00)
-                      ,UIColor(red: 0.69, green: 0.82, blue: 0.32, alpha: 1.00)
-                      ,UIColor(red: 0.08, green: 0.78, blue: 0.35, alpha: 1.00)
-                      ,UIColor(red: 0.00, green: 0.48, blue: 1.00, alpha: 1.00)
-                      ,UIColor(red: 0.76, green: 0.46, blue: 0.86, alpha: 1.00)]
-
 
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
@@ -100,8 +97,18 @@ class ViewController: UIViewController, UITextViewDelegate, FSCalendarDelegate{
         tableView.delegate = self
         tableView.dataSource = self
         
-        calendar.delegate = self
-        calendar.dataSource = self
+        calendarView.delegate = self
+        calendarView.dataSource = self
+//        calendar.locale = NSLocale.init(localeIdentifier: "zh-CN") as Locale
+        calendarView.appearance.headerDateFormat = "yyyy/MM"
+        calendarView.calendarWeekdayView.weekdayLabels[0].text = "日"
+        calendarView.calendarWeekdayView.weekdayLabels[1].text = "一"
+        calendarView.calendarWeekdayView.weekdayLabels[2].text = "二"
+        calendarView.calendarWeekdayView.weekdayLabels[3].text = "三"
+        calendarView.calendarWeekdayView.weekdayLabels[4].text = "四"
+        calendarView.calendarWeekdayView.weekdayLabels[5].text = "五"
+        calendarView.calendarWeekdayView.weekdayLabels[6].text = "六"
+
         
         collectionView.register(ColorCell.self, forCellWithReuseIdentifier: self.reuseIdentifier)
         collectionView.delegate = self
@@ -109,6 +116,32 @@ class ViewController: UIViewController, UITextViewDelegate, FSCalendarDelegate{
         
         //update events list
         getAllItems()
+    }
+    
+    //prev-next button
+    private var currentPage: Date?
+
+    private lazy var today: Date = {
+        return Date()
+    }()
+    
+    @IBAction func monthForthButtonPressed(_ sender: Any) {
+        self.moveCurrentPage(moveUp: true)
+    }
+        
+    @IBAction func monthBackButtonPressed(_ sender: Any) {
+            
+        self.moveCurrentPage(moveUp: false)
+    }
+
+    func moveCurrentPage(moveUp: Bool) {
+            
+        let calendar = Calendar.current
+        var dateComponents = DateComponents()
+        dateComponents.month = moveUp ? 1 : -1
+        
+        currentPage = calendar.date(byAdding: dateComponents, to: currentPage ?? today)
+        calendarView.setCurrentPage(self.currentPage!, animated: true)
     }
     
     func textViewDidChange(_ textView: UITextView) {
@@ -121,14 +154,21 @@ class ViewController: UIViewController, UITextViewDelegate, FSCalendarDelegate{
         
         animateIn(desiredView: blurView)
         animateIn(desiredView: popupView)
-//        let vc = storyboard?.instantiateViewController(identifier: "entry") as! EntryViewController
-//        vc.title = "NEW TASK"
-//        DispatchQueue.main.async {
-//                tableView.reloadData()
-//                calendar.reloadData()
-//        }
-//        navigationController?.pushViewController(vc, animated: true)
+
     }
+    
+    @IBAction func didTapFold(_ sender: Any) {
+        if calendarView.scope == .month {
+//            calendar.scope = .week
+            calendarView.setScope(.week, animated: true)
+
+        } else {
+            calendarView.setScope(.month, animated: true)
+//            calendar.scope = .month
+        }
+        calendarView.reloadData()
+    }
+    
     
     @IBAction func didTapBack(_ sender: Any) {
         animateOut(desiredView: popupView)
@@ -143,7 +183,7 @@ class ViewController: UIViewController, UITextViewDelegate, FSCalendarDelegate{
         createItem(name: name, id: Int64(events.count), date: datePicker.date)
         
         getAllItems()
-        calendar.reloadData()
+        calendarView.reloadData()
         tableView.reloadData()
         clearAll()
 
@@ -169,7 +209,7 @@ class ViewController: UIViewController, UITextViewDelegate, FSCalendarDelegate{
         createItem(name: name, id: Int64(events.count), startDate: datePicker2.date, endDate: datePicker3.date, colorLabel: self.selectedColorLabel, note:noteField.text)
         
         getAllItems()
-        calendar.reloadData()
+        calendarView.reloadData()
         tableView.reloadData()
         clearAll()
 
@@ -178,7 +218,7 @@ class ViewController: UIViewController, UITextViewDelegate, FSCalendarDelegate{
         animateOut(desiredView: blurView)
     }
     
-    
+
     func clearAll(){
         
         nameField.text?.removeAll()
@@ -221,6 +261,8 @@ class ViewController: UIViewController, UITextViewDelegate, FSCalendarDelegate{
 
     
     func animateIn(desiredView: UIView){
+        navigationController?.isNavigationBarHidden = true
+
         let backgroundView = self.view!
         backgroundView.addSubview(desiredView)
         
@@ -244,6 +286,7 @@ class ViewController: UIViewController, UITextViewDelegate, FSCalendarDelegate{
             desiredView.removeFromSuperview()
             }
         )
+        navigationController?.isNavigationBarHidden = false
     }
     
     //core data
@@ -298,19 +341,7 @@ class ViewController: UIViewController, UITextViewDelegate, FSCalendarDelegate{
             print("context save error!")
         }
     }
-    
-    func updateItem(item: EventsListItem, name:String, date:Date){
-        item.name? = name
-        item.date? = date
-        do
-        {
-            try context.save()
-            
-        }
-        catch{
-            //error
-        }
-    }
+
     
     func deleteItem(item: EventsListItem){
         context.delete(item)
@@ -344,46 +375,29 @@ class ViewController: UIViewController, UITextViewDelegate, FSCalendarDelegate{
     }
     
 
-    
-    func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
-        print("selected")
-        let formatter = DateFormatter()
-        formatter.dateFormat = "EEEE YYYY-MM-dd"
-        let date_formatted = formatter.string(from: date)
-        navigationItem.title = date_formatted
-        selectedDate = date
-        tableView.reloadData()
-    }
+   
     
     func colorsForDate(date: Date) -> [UIColor]? {
-        //single label color
-//        if ...{
-//                return [UIColor.yellow]
-//            }
+
         var colors = [UIColor]()
         for event in eventsforDate(date: date)
         {
             if(event.colorLabel != 0){
-                if(!colors.contains(self.colorLabels[Int(event.colorLabel)]))
+                if(!colors.contains(colorLabels[Int(event.colorLabel)]))
                 {
-                    colors.append(self.colorLabels[Int(event.colorLabel)])
+                    colors.append(colorLabels[Int(event.colorLabel)])
                 }
             }
         }
         print("\(colors)")
         return colors
-        
-        //multiple labels
-        
-        //no labels
-//        return []
     }
-
+    
 
 }
 
 
-extension ViewController: FSCalendarDataSource, FSCalendarDelegateAppearance {
+extension ViewController: FSCalendarDataSource, FSCalendarDelegate, FSCalendarDelegateAppearance {
     func calendar(_ calendar: FSCalendar, numberOfEventsFor date: Date) -> Int {
         if eventsforDate(date: date).count > 0{
             return colorsForDate(date: date)!.count
@@ -394,7 +408,35 @@ extension ViewController: FSCalendarDataSource, FSCalendarDelegateAppearance {
     func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, eventDefaultColorsFor date: Date) -> [UIColor]? {
         return colorsForDate(date: date)
     }
+    
+    
+    func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, fillSelectionColorFor date: Date) -> UIColor? {
+        let colors = colorsForDate(date: date)!
+        if(colors.isEmpty){
+            return UIColor.systemBlue
+        }
+        else{
+            return colors[0]
+        }
+    }
+    
+    
+    func calendar(_ calendar: FSCalendar, didSelect date: Date, at monthPosition: FSCalendarMonthPosition) {
+        print("selected")
+        let formatter = DateFormatter()
+        formatter.dateFormat = "EEEE MM月dd日"
+        let date_formatted_title = formatter.string(from: date)
+        navigationItem.title = date_formatted_title
+        selectedDate = date
+        tableView.reloadData()
+    }
+    
+    func calendar(_ calendar: FSCalendar, boundingRectWillChange bounds: CGRect, animated: Bool) {
+        self.calendarHeightConstraint.constant = bounds.height
+        self.view.layoutIfNeeded()
+    }
 }
+
 
 extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout{
     
@@ -402,7 +444,7 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate, 
         
         let cell = collectionView.cellForItem(at: indexPath) as! ColorCell
         self.selectedColorLabel = indexPath.row+1
-        let selectedColor = self.colorLabels[indexPath.row+1]
+        let selectedColor = colorLabels[indexPath.row+1]
         print("\(String(describing: selectedColor))")
         imageIcon.tintColor = selectedColor
 
@@ -444,12 +486,12 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate, 
 
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.colorLabels.count-1
+        return colorLabels.count-1
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath)
-        cell.backgroundColor = self.colorLabels[indexPath.row+1]
+        cell.backgroundColor = colorLabels[indexPath.row+1]
         return cell
     }
 }
@@ -459,7 +501,7 @@ extension ViewController: UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
         
         let vc = storyboard?.instantiateViewController(identifier: "task") as! TaskViewController
-        vc.title = "新任务"
+        vc.title = "编辑任务"
         vc.event = eventsforDate(date: selectedDate)[indexPath.row]
         navigationController?.pushViewController(vc, animated: true)
     }
@@ -479,12 +521,11 @@ extension ViewController: UITableViewDataSource {
             let formatter = DateFormatter()
             formatter.dateFormat = "h:mm a"
             let date_formatted = formatter.string(from: event.date!)
-            navigationItem.title = date_formatted
     //        cell.textLabel?.text = "\(String(describing: event.name))"
             let name = event.name!
             cell.nameTF?.text = "\(name)"
             cell.timeTF?.text = "\(date_formatted)"
-            cell.colorLabel?.tintColor = self.colorLabels[Int(event.colorLabel)]
+            cell.colorLabel?.tintColor = colorLabels[Int(event.colorLabel)]
             return cell
         }
         return UITableViewCell()
@@ -503,13 +544,13 @@ extension ViewController: UITableViewDataSource {
             tableView.deleteRows(at: [indexPath], with: .left)
             tableView.endUpdates()
         }
-        calendar.reloadData()
+        calendarView.reloadData()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         tableView.reloadData()
-        calendar.reloadData()
+        calendarView.reloadData()
     }
 }
 
