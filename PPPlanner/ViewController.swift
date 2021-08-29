@@ -371,7 +371,7 @@ class ViewController: UIViewController, UITextViewDelegate{
                 daysEvent.append(event)
             }
         }
-        return daysEvent
+        return daysEvent.sorted(by: { $0.date!.compare($1.date!) == .orderedAscending })
     }
     
 

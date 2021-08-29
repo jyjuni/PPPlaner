@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4188496B26DBDF3B00CE8C60 /* HistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4188496A26DBDF3B00CE8C60 /* HistoryViewController.swift */; };
+		4188496D26DBE24500CE8C60 /* HisCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4188496C26DBE24500CE8C60 /* HisCell.swift */; };
 		78C712D0C455594E6F880F00 /* Pods_PPPlanner_PPPlannerUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3F56C23D1A9B0C90AA29111 /* Pods_PPPlanner_PPPlannerUITests.framework */; };
 		A060D2AE26D0E33500204075 /* EntryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A060D2AD26D0E33500204075 /* EntryViewController.swift */; };
 		A060D2B026D0E34800204075 /* TaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A060D2AF26D0E34800204075 /* TaskViewController.swift */; };
@@ -46,6 +48,8 @@
 /* Begin PBXFileReference section */
 		0786C5C7356164A90704F768 /* Pods-PPPlanner-PPPlannerUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PPPlanner-PPPlannerUITests.debug.xcconfig"; path = "Target Support Files/Pods-PPPlanner-PPPlannerUITests/Pods-PPPlanner-PPPlannerUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		153B647C22E092D9FB824577 /* Pods_PPPlannerTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PPPlannerTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4188496A26DBDF3B00CE8C60 /* HistoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryViewController.swift; sourceTree = "<group>"; };
+		4188496C26DBE24500CE8C60 /* HisCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HisCell.swift; sourceTree = "<group>"; };
 		5046CA0EF29B824D82F2E886 /* Pods-PPPlanner.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PPPlanner.release.xcconfig"; path = "Target Support Files/Pods-PPPlanner/Pods-PPPlanner.release.xcconfig"; sourceTree = "<group>"; };
 		69489F94D28FCBB3A5996A54 /* Pods-PPPlannerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PPPlannerTests.release.xcconfig"; path = "Target Support Files/Pods-PPPlannerTests/Pods-PPPlannerTests.release.xcconfig"; sourceTree = "<group>"; };
 		762BD7E4381C221D6C5042BF /* Pods-PPPlannerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PPPlannerTests.debug.xcconfig"; path = "Target Support Files/Pods-PPPlannerTests/Pods-PPPlannerTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -156,8 +160,10 @@
 				A0CF65EE26D0B51800DDC09B /* ViewController.swift */,
 				A060D2B326D1090300204075 /* Event.swift */,
 				A060D2B526D11BE700204075 /* ColorCell.swift */,
+				4188496C26DBE24500CE8C60 /* HisCell.swift */,
 				A060D2AD26D0E33500204075 /* EntryViewController.swift */,
 				A060D2AF26D0E34800204075 /* TaskViewController.swift */,
+				4188496A26DBDF3B00CE8C60 /* HistoryViewController.swift */,
 				A0CF65F026D0B51800DDC09B /* Main.storyboard */,
 				A08BEBBE26D4FE0900EECA9B /* TableCell.swift */,
 				A0CF65F626D0B51A00DDC09B /* Assets.xcassets */,
@@ -427,6 +433,8 @@
 				A08BEBBF26D4FE0900EECA9B /* TableCell.swift in Sources */,
 				A060D2B426D1090300204075 /* Event.swift in Sources */,
 				A0CF65EF26D0B51800DDC09B /* ViewController.swift in Sources */,
+				4188496D26DBE24500CE8C60 /* HisCell.swift in Sources */,
+				4188496B26DBDF3B00CE8C60 /* HistoryViewController.swift in Sources */,
 				A060D2AE26D0E33500204075 /* EntryViewController.swift in Sources */,
 				A0CF65EB26D0B51800DDC09B /* AppDelegate.swift in Sources */,
 				A0CF65F526D0B51800DDC09B /* PPPlanner.xcdatamodeld in Sources */,

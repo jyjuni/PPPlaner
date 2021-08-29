@@ -9,7 +9,7 @@ import UIKit
 import FSCalendar
 
 class TaskViewController: UIViewController, UITextViewDelegate, FSCalendarDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    
+ 
     var event:EventsListItem!
     var selectedColorLabel: Int!
     var placeholderLabel : UILabel!
@@ -109,6 +109,18 @@ class TaskViewController: UIViewController, UITextViewDelegate, FSCalendarDelega
     }
     
     
+    @IBAction func didTapHis(_ sender: Any) {
+        let vc = storyboard?.instantiateViewController(identifier: "his") as! HistoryViewController
+        vc.name = event.name!
+
+//        let modalVC = ModalVC.instantiateFromStoryboard(self.storyboard!)
+        self.present(vc, animated: true, completion: nil)
+//        if event.name != nil{
+//            vc.name = event.name!
+//            navigationController?.pushViewController(vc, animated: true)
+//        }
+//
+    }
     
     func updateItem(item: EventsListItem, name:String, startDate:Date, endDate:Date, colorLabel:Int, note:String){
         item.name = name
