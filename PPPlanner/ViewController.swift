@@ -40,9 +40,18 @@ class ViewController: UIViewController, UITextViewDelegate{
     @IBOutlet weak var noteField: UITextView!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var calendarHeightConstraint: NSLayoutConstraint!
+    @IBOutlet var timeHolderView: UIStackView!
+    @IBOutlet var nameHolderView: UIStackView!
+    @IBOutlet var lineView: UIView!
+    @IBOutlet var lineView2: UIView!
+
+
+
+
 
     var selectedColorLabel: Int!
     var placeholderLabel : UILabel!
+    var currentDate: Date!
 
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
@@ -62,13 +71,14 @@ class ViewController: UIViewController, UITextViewDelegate{
         blurView.bounds = self.view.bounds
         popupView.layer.cornerRadius = 5
         popupView.bounds = CGRect(x: 0, y: 0, width: self.view.bounds.width*0.9, height: self.view.bounds.height*0.4)
+        nameField.layer.cornerRadius = 10
         
         popupView2.layer.cornerRadius = 5
         popupView2.bounds = CGRect(x: 0, y: 0, width: self.view.bounds.width*0.9, height: self.view.bounds.height*0.75)
         
-        noteField.layer.borderColor = UIColor.lightGray.cgColor
-        noteField.layer.borderWidth = 0.2
-        noteField.layer.cornerRadius = 5
+//        noteField.layer.borderColor = UIColor.lightGray.cgColor
+//        noteField.layer.borderWidth = 0.2
+//        noteField.layer.cornerRadius = 5
         noteField.delegate = self
         placeholderLabel = UILabel()
         placeholderLabel.text = "描述..."
@@ -78,20 +88,25 @@ class ViewController: UIViewController, UITextViewDelegate{
         placeholderLabel.frame.origin = CGPoint(x: 5, y: (noteField.font?.pointSize)! / 2)
         placeholderLabel.textColor = UIColor.lightGray
         placeholderLabel.isHidden = !noteField.text.isEmpty
-        
-        
+        timeHolderView.layer.cornerRadius = 10
+        nameHolderView.layer.cornerRadius = 10
+
         datePicker2.minuteInterval = 15
         datePicker2.datePickerMode = .dateAndTime
         datePicker2.addTarget(self, action: #selector(startDateChange(datePicker:)), for: UIControl.Event.valueChanged)
         datePicker2.frame.size = CGSize(width: 0, height: 300)
         datePicker2.preferredDatePickerStyle = .wheels
-        
+            
         datePicker3.minuteInterval = 15
         datePicker3.datePickerMode = .dateAndTime
         datePicker3.addTarget(self, action: #selector(endDateChange(datePicker:)), for: UIControl.Event.valueChanged)
         datePicker3.frame.size = CGSize(width: 0, height: 300)
         datePicker3.preferredDatePickerStyle = .wheels
 
+        lineView.layer.borderWidth = 0.1
+        lineView.layer.borderColor = UIColor.gray.cgColor
+        lineView2.layer.borderWidth = 0.1
+        lineView2.layer.borderColor = UIColor.gray.cgColor
         
 //        tableView.register(TableCell.self, forCellReuseIdentifier: "tablecell")
         tableView.delegate = self
@@ -233,16 +248,26 @@ class ViewController: UIViewController, UITextViewDelegate{
     
    
     @IBAction func didTapMore(_ sender: Any) {
-        animateIn(desiredView: popupView2)
+        animateIn2(desiredView: popupView2)
         
+        datePicker2.date = self.currentDate ?? Date()
+        datePicker3.date = datePicker2.date
+
         //start date
         startTF.inputView = datePicker2
-        startTF.text = formatDate(date: Date())
+//        startTF.text = formatDate(date: datePicker2.date)
         
         //end date
         endTF.inputView = datePicker3
-        endTF.text = formatDate(date: datePicker2.date)
+//        endTF.text = formatDate(date: datePicker2.date)
         
+    }
+    
+    func dateForDay(isoDate: String){
+        let isoDate = "2016-04-14T10:44:00+0000"
+
+        let dateFormatter = ISO8601DateFormatter()
+        let date = dateFormatter.date(from:isoDate)!
     }
     
     @objc func startDateChange(datePicker: UIDatePicker){
@@ -267,6 +292,24 @@ class ViewController: UIViewController, UITextViewDelegate{
         backgroundView.addSubview(desiredView)
         
         desiredView.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
+        desiredView.alpha = 0
+        desiredView.center = backgroundView.center
+        
+        //animate the effect
+        UIView.animate(withDuration: 0.3, animations: {
+            desiredView.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+            desiredView.alpha = 1
+            }
+        )
+    }
+    
+    func animateIn2(desiredView: UIView){
+        navigationController?.isNavigationBarHidden = true
+
+        let backgroundView = self.view!
+        backgroundView.addSubview(desiredView)
+        
+        desiredView.transform = CGAffineTransform(scaleX: 1.0, y: 0.53)
         desiredView.alpha = 0
         desiredView.center = backgroundView.center
         
@@ -409,6 +452,9 @@ extension ViewController: FSCalendarDataSource, FSCalendarDelegate, FSCalendarDe
         return colorsForDate(date: date)
     }
     
+    func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, eventSelectionColorsFor date: Date) -> [UIColor]? {
+        return colorsForDate(date: date)
+    }
     
     func calendar(_ calendar: FSCalendar, appearance: FSCalendarAppearance, fillSelectionColorFor date: Date) -> UIColor? {
         let colors = colorsForDate(date: date)!
@@ -425,9 +471,10 @@ extension ViewController: FSCalendarDataSource, FSCalendarDelegate, FSCalendarDe
         print("selected")
         let formatter = DateFormatter()
         formatter.dateFormat = "EEEE MM月dd日"
-        let date_formatted_title = formatter.string(from: date)
-        navigationItem.title = date_formatted_title
+//        let date_formatted_title = formatter.string(fromtitle: date)
+//        navigationItem.title = date_formatted_title
         selectedDate = date
+        self.currentDate = date
         tableView.reloadData()
     }
     
