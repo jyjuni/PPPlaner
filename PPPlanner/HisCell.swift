@@ -12,6 +12,8 @@ class HisCell: UITableViewCell{
     @IBOutlet weak var timeTF: UILabel!
     @IBOutlet weak var dateTF: UILabel!
     @IBOutlet weak var colorLabel: UIImageView!
+    @IBOutlet var descTF: UILabel!
+
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

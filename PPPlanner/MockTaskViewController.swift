@@ -8,7 +8,7 @@
 import UIKit
 import FSCalendar
 
-class TaskViewController: UIViewController, UITextViewDelegate, UITextFieldDelegate, FSCalendarDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+class MockTaskViewController: UIViewController, UITextViewDelegate, FSCalendarDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
  
     var event:EventsListItem!
     var selectedColorLabel: Int!
@@ -29,10 +29,8 @@ class TaskViewController: UIViewController, UITextViewDelegate, UITextFieldDeleg
 
 
     override func viewDidLoad() {
-        
         super.viewDidLoad()
-        navigationController?.isNavigationBarHidden = false
-
+        
         if #available(iOS 13.0, *) {
                 // Always adopt a light interface style.
                 overrideUserInterfaceStyle = .light
@@ -77,7 +75,7 @@ class TaskViewController: UIViewController, UITextViewDelegate, UITextFieldDeleg
         placeholderLabel.frame.origin = CGPoint(x: 5, y: (noteField.font?.pointSize)! / 2)
         placeholderLabel.textColor = UIColor.lightGray
         placeholderLabel.isHidden = !noteField.text.isEmpty
-
+        
         datePicker2.minuteInterval = 15
         datePicker2.datePickerMode = .dateAndTime
         datePicker2.addTarget(self, action: #selector(startDateChange(datePicker:)), for: UIControl.Event.valueChanged)
@@ -96,8 +94,6 @@ class TaskViewController: UIViewController, UITextViewDelegate, UITextFieldDeleg
         
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "完成", style: .done, target: self, action: #selector(saveTask))
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: " <返回", style: .done, target: self, action: #selector(back))
-        
     }
     
     @objc func saveTask(){
@@ -113,16 +109,9 @@ class TaskViewController: UIViewController, UITextViewDelegate, UITextFieldDeleg
         navigationController?.popViewController(animated: true)
     }
     
-    @objc func back(){
-        navigationController?.isNavigationBarHidden = true
-
-        navigationController?.popViewController(animated: true)
-    }
-    
     @IBAction func didTapDelete(_ sender: Any) {
         navigationController?.popViewController(animated: true)
     }
-    
     
     
     @IBAction func didTapHis(_ sender: Any) {

@@ -20,7 +20,7 @@ let colorLabels = [UIColor.clear
                   ,UIColor(red: 0.00, green: 0.48, blue: 1.00, alpha: 1.00)
                   ,UIColor(red: 0.76, green: 0.46, blue: 0.86, alpha: 1.00)]
 
-class ViewController: UIViewController, UITextViewDelegate{
+class ViewController: UIViewController, UITextViewDelegate, UITextFieldDelegate{
 
     //MAIN VC
     @IBOutlet var tableView: UITableView!
@@ -66,8 +66,14 @@ class ViewController: UIViewController, UITextViewDelegate{
         super.viewDidLoad()
         // Do any additional setup after loading the view.
 
+        if #available(iOS 13.0, *) {
+                // Always adopt a light interface style.
+                overrideUserInterfaceStyle = .light
+            }
+        
         // view setups
-        self.title = "today's tasks"
+//        self.title = "hello，马大夫"
+        navigationController?.isNavigationBarHidden = true
         blurView.bounds = self.view.bounds
         popupView.layer.cornerRadius = 5
         popupView.bounds = CGRect(x: 0, y: 0, width: self.view.bounds.width*0.9, height: self.view.bounds.height*0.4)
@@ -80,6 +86,12 @@ class ViewController: UIViewController, UITextViewDelegate{
 //        noteField.layer.borderWidth = 0.2
 //        noteField.layer.cornerRadius = 5
         noteField.delegate = self
+        
+        nameField.delegate = self
+        nameField2.delegate = self
+        startTF.delegate = self
+        endTF.delegate = self
+        
         placeholderLabel = UILabel()
         placeholderLabel.text = "描述..."
         placeholderLabel.font = UIFont.systemFont(ofSize: 14.0)
@@ -111,6 +123,7 @@ class ViewController: UIViewController, UITextViewDelegate{
 //        tableView.register(TableCell.self, forCellReuseIdentifier: "tablecell")
         tableView.delegate = self
         tableView.dataSource = self
+        
         
         calendarView.delegate = self
         calendarView.dataSource = self
@@ -436,7 +449,25 @@ class ViewController: UIViewController, UITextViewDelegate{
         return colors
     }
     
-
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if text == "\n" {
+            textView.resignFirstResponder()
+            return false
+        }
+        return true
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool // called when 'return' key pressed. return NO to ignore.
+    {
+        return true;
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+//        datePicker.isHidden = true
+//        datePicker2.isHidden = true
+//        datePicker3.isHidden = true
+    }
 }
 
 
@@ -512,8 +543,6 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate, 
         return UIEdgeInsets(top: topInset, left: topInset, bottom: topInset, right: topInset)
     }
     
-    
-    
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
@@ -546,15 +575,12 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate, 
 extension ViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        
         let vc = storyboard?.instantiateViewController(identifier: "task") as! TaskViewController
         vc.title = "编辑任务"
         vc.event = eventsforDate(date: selectedDate)[indexPath.row]
         navigationController?.pushViewController(vc, animated: true)
     }
 }
-
-
 
 
 extension ViewController: UITableViewDataSource {
@@ -596,6 +622,7 @@ extension ViewController: UITableViewDataSource {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+
         tableView.reloadData()
         calendarView.reloadData()
     }

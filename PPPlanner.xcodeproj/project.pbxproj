@@ -24,6 +24,7 @@
 		A0CF65FA26D0B51A00DDC09B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A0CF65F826D0B51A00DDC09B /* LaunchScreen.storyboard */; };
 		A0CF660526D0B51A00DDC09B /* PPPlannerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0CF660426D0B51A00DDC09B /* PPPlannerTests.swift */; };
 		A0CF661026D0B51A00DDC09B /* PPPlannerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0CF660F26D0B51A00DDC09B /* PPPlannerUITests.swift */; };
+		A0D8128D26E251A700E36CC7 /* MockTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0D8128C26E251A700E36CC7 /* MockTaskViewController.swift */; };
 		B7199EAB1918F6823C6A6F85 /* Pods_PPPlannerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 153B647C22E092D9FB824577 /* Pods_PPPlannerTests.framework */; };
 		F6076C72B42AE87A84094147 /* Pods_PPPlanner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 819230A3408758EB39E5C229 /* Pods_PPPlanner.framework */; };
 /* End PBXBuildFile section */
@@ -74,6 +75,7 @@
 		A0CF660B26D0B51A00DDC09B /* PPPlannerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PPPlannerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A0CF660F26D0B51A00DDC09B /* PPPlannerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PPPlannerUITests.swift; sourceTree = "<group>"; };
 		A0CF661126D0B51A00DDC09B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A0D8128C26E251A700E36CC7 /* MockTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockTaskViewController.swift; sourceTree = "<group>"; };
 		A3F56C23D1A9B0C90AA29111 /* Pods_PPPlanner_PPPlannerUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PPPlanner_PPPlannerUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA463975625CF635C1ED7CFA /* Pods-PPPlanner-PPPlannerUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PPPlanner-PPPlannerUITests.release.xcconfig"; path = "Target Support Files/Pods-PPPlanner-PPPlannerUITests/Pods-PPPlanner-PPPlannerUITests.release.xcconfig"; sourceTree = "<group>"; };
 		FAEFA7BBCF2208B61EE3C763 /* Pods-PPPlanner.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PPPlanner.debug.xcconfig"; path = "Target Support Files/Pods-PPPlanner/Pods-PPPlanner.debug.xcconfig"; sourceTree = "<group>"; };
@@ -163,6 +165,7 @@
 				4188496C26DBE24500CE8C60 /* HisCell.swift */,
 				A060D2AD26D0E33500204075 /* EntryViewController.swift */,
 				A060D2AF26D0E34800204075 /* TaskViewController.swift */,
+				A0D8128C26E251A700E36CC7 /* MockTaskViewController.swift */,
 				4188496A26DBDF3B00CE8C60 /* HistoryViewController.swift */,
 				A0CF65F026D0B51800DDC09B /* Main.storyboard */,
 				A08BEBBE26D4FE0900EECA9B /* TableCell.swift */,
@@ -437,6 +440,7 @@
 				4188496B26DBDF3B00CE8C60 /* HistoryViewController.swift in Sources */,
 				A060D2AE26D0E33500204075 /* EntryViewController.swift in Sources */,
 				A0CF65EB26D0B51800DDC09B /* AppDelegate.swift in Sources */,
+				A0D8128D26E251A700E36CC7 /* MockTaskViewController.swift in Sources */,
 				A0CF65F526D0B51800DDC09B /* PPPlanner.xcdatamodeld in Sources */,
 				A0CF65ED26D0B51800DDC09B /* SceneDelegate.swift in Sources */,
 				A060D2B626D11BE700204075 /* ColorCell.swift in Sources */,
@@ -618,7 +622,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 25P4M6355L;
 				INFOPLIST_FILE = PPPlanner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -638,7 +642,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 25P4M6355L;
 				INFOPLIST_FILE = PPPlanner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

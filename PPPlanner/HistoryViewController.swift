@@ -12,6 +12,8 @@ class HistoryViewController: UIViewController {
     
     @IBOutlet var titleTF: UILabel!
     @IBOutlet var tableView: UITableView!
+
+    
     var name: String!
     var eventsNameList: [EventsListItem] = []
     
@@ -20,22 +22,49 @@ class HistoryViewController: UIViewController {
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
 //    var update: (() -> Void)?
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
         
+        if #available(iOS 13.0, *) {
+                // Always adopt a light interface style.
+                overrideUserInterfaceStyle = .light
+            }
+        
         self.eventsNameList = eventsforName(name: self.name)
         titleTF.text = "\(self.name ?? "")的历史预约 (\(eventsNameList.count)个)"
 //        updateViewConstraints()
 //        view.backgroundColor = .clear
+//
+//        let singleFingerTap = UITapGestureRecognizer.init(target: self, action: #selector(handleTap(sender:)))
+//        self.view.addGestureRecognizer(tapGesture)
+
+    }
+    
+    @objc func handleTap(sender: UITapGestureRecognizer) {
+        print("tap")
+        navigationController?.popViewController(animated: true)
+        dismiss(animated: true, completion: nil)
+    }
+
+//   @objc func tapToDismiss() {
+//       print("tapToDimiss")
+//       self.dismiss(animated: true, completion: nil)
+//   }
+
+    @IBAction func didTapBack(_ sender: Any) {
+        
+        navigationController?.popViewController(animated: true)
+        dismiss(animated: true, completion: nil)
     }
     
     override func updateViewConstraints() {
-           self.view.frame.size.height = UIScreen.main.bounds.height
+        self.view.frame.size.height = UIScreen.main.bounds.height
         self.view.frame.origin.y =  UIScreen.main.bounds.height - (tableView.rowHeight * CGFloat(eventsNameList.count)) - 160
-           self.view.roundCorners(corners: [.topLeft, .topRight], radius: 10.0)
-           super.updateViewConstraints()
+        self.view.roundCorners(corners: [.topLeft, .topRight], radius: 10.0)
+        super.updateViewConstraints()
     }
 
 
@@ -47,8 +76,6 @@ class HistoryViewController: UIViewController {
         var daysEvent = [EventsListItem]()
         for event in events
         {
-
-
 
             if(Calendar.current.isDate(event.date!, inSameDayAs:date))
             {
@@ -92,11 +119,18 @@ extension UIView {
 extension HistoryViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        
-        let vc = storyboard?.instantiateViewController(identifier: "task") as! TaskViewController
-        vc.title = "编辑任务"
-        vc.event = eventsNameList[indexPath.row]
-        navigationController?.pushViewController(vc, animated: true)
+
+//        let vc = storyboard?.instantiateViewController(identifier: "mocktask") as! MockTaskViewController
+//        vc.title = "编辑任务"
+//        vc.event = eventsNameList[indexPath.row]
+//        print("hi", indexPath.row)
+//
+//        let navigation = UINavigationController(rootViewController: vc)
+////        navigation.isNavigationBarHidden = true
+////        self.navigationController?.present(navigation, animated: true, completion: nil)
+////        dismiss(animated: true, completion: nil)
+//
+//        navigation.pushViewController(vc, animated: true)
     }
 }
 
@@ -122,6 +156,9 @@ extension HistoryViewController: UITableViewDataSource {
             cell.dateTF?.text = "\(date_formatted)"
             cell.timeTF?.text = "\(time_formatted)"
             cell.colorLabel?.tintColor = colorLabels[Int(event.colorLabel)]
+            if(event.desc != nil){
+                cell.descTF?.text = event.desc
+            }
             return cell
         }
         return UITableViewCell()
