@@ -246,7 +246,34 @@ class ViewController: UIViewController, UITextViewDelegate, UITextFieldDelegate{
         animateOut(desiredView: blurView)
     }
     
+    @IBAction func didTapMore(_ sender: Any) {
+        
+        
+        animateIn2(desiredView: popupView2)
+        
+        guard let name = nameField.text, !name.isEmpty else {
+            return
+        }
+        
+//        let date = datePicker.date
+        
+//        createItem(name: name, id: Int64(events.count), date: datePicker.date)
+        
+        nameField2.text = name
+        startTF.text = formatDate(date: datePicker.date)
+        datePicker2.date = datePicker.date
+        datePicker3.date = datePicker.date
 
+        //start date
+        startTF.inputView = datePicker2
+//        startTF.text = formatDate(date: datePicker2.date)
+        
+        //end date
+        endTF.inputView = datePicker3
+//        endTF.text = formatDate(date: datePicker2.date)
+        
+    }
+    
     func clearAll(){
         
         nameField.text?.removeAll()
@@ -260,21 +287,7 @@ class ViewController: UIViewController, UITextViewDelegate, UITextFieldDelegate{
     }
     
    
-    @IBAction func didTapMore(_ sender: Any) {
-        animateIn2(desiredView: popupView2)
-        
-        datePicker2.date = self.currentDate ?? Date()
-        datePicker3.date = datePicker2.date
-
-        //start date
-        startTF.inputView = datePicker2
-//        startTF.text = formatDate(date: datePicker2.date)
-        
-        //end date
-        endTF.inputView = datePicker3
-//        endTF.text = formatDate(date: datePicker2.date)
-        
-    }
+    
     
     func dateForDay(isoDate: String){
         let isoDate = "2016-04-14T10:44:00+0000"
@@ -342,7 +355,7 @@ class ViewController: UIViewController, UITextViewDelegate, UITextFieldDelegate{
             desiredView.removeFromSuperview()
             }
         )
-        navigationController?.isNavigationBarHidden = false
+        navigationController?.isNavigationBarHidden = true
     }
     
     //core data

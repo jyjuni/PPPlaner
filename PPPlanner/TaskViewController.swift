@@ -25,7 +25,10 @@ class TaskViewController: UIViewController, UITextViewDelegate, UITextFieldDeleg
     @IBOutlet weak var endTF: UITextField!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var noteField: UITextView!
-
+    @IBOutlet var timeHolderView: UIStackView!
+    @IBOutlet var nameHolderView: UIStackView!
+    @IBOutlet var lineView: UIView!
+    @IBOutlet var lineView2: UIView!
 
 
     override func viewDidLoad() {
@@ -56,6 +59,8 @@ class TaskViewController: UIViewController, UITextViewDelegate, UITextFieldDeleg
         endTF.inputView = datePicker3
         endTF.text = formatDate(date: datePicker3.date)
         
+        timeHolderView.layer.cornerRadius = 10
+        nameHolderView.layer.cornerRadius = 10
         
         if event.desc != nil{
             noteField.text = event.desc
@@ -65,9 +70,12 @@ class TaskViewController: UIViewController, UITextViewDelegate, UITextFieldDeleg
         endTF.inputView = datePicker3
         endTF.text = formatDate(date: datePicker2.date)
         
-        noteField.layer.borderColor = UIColor.lightGray.cgColor
-        noteField.layer.borderWidth = 0.2
-        noteField.layer.cornerRadius = 5
+        lineView.layer.borderWidth = 0.1
+        lineView.layer.borderColor = UIColor.gray.cgColor
+        lineView2.layer.borderWidth = 0.1
+        lineView2.layer.borderColor = UIColor.gray.cgColor
+        
+        noteField.layer.borderWidth = 0
         noteField.delegate = self
         placeholderLabel = UILabel()
         placeholderLabel.text = "描述..."
